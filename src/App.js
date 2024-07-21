@@ -1,23 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import BlogList from "./Pages/BlogListPage/BlogListPage";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
+import BlogDetails from "./Components/BlogDetails";
+import { useEffect } from "react";
+import { useNews } from "./Context/NewsContext";
 
 function App() {
+  const navigate = useNavigate();
+  const { singleArticle } = useNews();
+  useEffect(() => {
+    !singleArticle && navigate("/");
+  }, []);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Routes>
+        <Route path="/" element={<BlogList />} />
+        <Route path="/blog/:id" element={<BlogDetails />} />
+      </Routes>
     </div>
   );
 }
